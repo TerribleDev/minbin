@@ -1,16 +1,23 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Hello } from "./components/Hello";
-import darkBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-const darkMuiTheme = getMuiTheme(darkBaseTheme);
-
-
+import 'bootstrap/dist/css/bootstrap.css';
+import { TabNav } from './components/TabNav'
+import { NavBar } from './components/NavBar'
+import { BoostrapFirebase } from './startup/firebase'
+import { LoginContainer } from './containers/Login'
+import { createStore } from 'redux'
+import { MainReducer } from './reducers/MainReducer'
+BoostrapFirebase();
+let store = createStore(MainReducer)
 const App = () => (
-    <MuiThemeProvider muiTheme={darkMuiTheme}>
-       <Hello compiler="theme prov" framework="React" />
-    </MuiThemeProvider>
+      <div className="app container-fluid">
+        <NavBar>
+          <LoginContainer/>
+        </NavBar>
+        <TabNav />
+        <Hello compiler="yodawg" framework="React" />
+       </div>
   );
   
 ReactDOM.render(

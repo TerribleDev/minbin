@@ -9,14 +9,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "firebase": "^4.8.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6"
+    "react-redux": "^5.0.6",
+    "reactstrap": "^5.0.0-alpha.4",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
+    "@types/react": "^16.0.31",
+    "@types/react-dom": "^16.0.3",
+    "@types/reactstrap": "^5.0.6",
     "awesome-typescript-loader": "^3.4.1",
-    "redux-devtools": "^3.4.1",
+    "css-loader": "^0.28.7",
     "source-map-loader": "^0.2.3",
+    "style-loader": "^0.19.1",
     "typescript": "^2.6.2"
   }
 }
