@@ -7,7 +7,9 @@ import { NavBar } from './components/NavBar'
 import { BoostrapFirebase } from './startup/firebase'
 import { LoginContainer } from './containers/Login'
 import { createStore } from 'redux'
-import { MainReducer } from './reducers/MainReducer'
+import {MainReducer} from './reducers/MainReducer'
+import { Provider } from 'react-redux'
+
 BoostrapFirebase();
 let store = createStore(MainReducer)
 const App = () => (
@@ -21,6 +23,9 @@ const App = () => (
   );
   
 ReactDOM.render(
-   <App />,
+  <Provider store={store}>
+   <App />
+   </Provider>
+   ,
     document.getElementById("example")
 );

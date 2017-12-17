@@ -1,8 +1,4 @@
+import { LoginState } from './LoginState';
 export interface AppState {
-    user:{
-        isLoggedIn: Boolean,
-        displayName: String
-    }
-    
-
+    login:LoginState
 }

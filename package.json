@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-redux": "^5.0.14",
     "bootstrap": "^4.0.0-beta.2",
     "firebase": "^4.8.0",
     "react": "^16.2.0",

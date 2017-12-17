@@ -1,0 +1,1 @@
+export interface LoginState { isLoggedIn: Boolean; displayName: string; uid: string }
