@@ -9,18 +9,20 @@ import {AppState} from '../models/AppState'
 import { Dispatch, connect } from 'react-redux';
 import * as redux from 'redux';
 
-const mapStateToProps = (state : AppState)  =>
+const mapStateToProps = (state : AppState) : IBaseLoginProps  =>
     {
         return {loginState: state.login};
     }
-const mapDispatchToProps  = (dispatch: any) => {
+const mapDispatchToProps  = (dispatch: (Action)=>any) : IBaseLoginDispatches => {
     return {
         onLogin:(loginState: LoginState) => dispatch(actions.login(loginState)),
         onLogOut:() => dispatch(actions.logout())
     }
 }
-interface LoginProps {loginState: LoginState, onLogin: (loginState: LoginState)=>any, onLogOut: ()=>any }
-class loginContainer extends React.Component<LoginProps,{}>{
+interface IBaseLoginProps {loginState: LoginState}
+interface IBaseLoginDispatches {onLogin: (loginState: LoginState)=>any, onLogOut: ()=>any}
+interface ILoginProps extends IBaseLoginProps,IBaseLoginDispatches {}
+class loginContainer extends React.Component<ILoginProps,{}>{
 
     constructor(props: any){
         super(props, {isLoggedIn: false, displayName: '', uid: null}) 
