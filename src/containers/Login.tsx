@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { Reducer, Action } from 'redux';
 import * as actions from '../actions/loginActions';
 import { LoginState } from '../models/LoginState';
 import * as React from 'react';
@@ -13,7 +13,7 @@ const mapStateToProps = (state : AppState) : IBaseLoginProps  =>
     {
         return {loginState: state.login};
     }
-const mapDispatchToProps  = (dispatch: (Action)=>any) : IBaseLoginDispatches => {
+const mapDispatchToProps  = (dispatch: (action: Action)=>any) : IBaseLoginDispatches => {
     return {
         onLogin:(loginState: LoginState) => dispatch(actions.login(loginState)),
         onLogOut:() => dispatch(actions.logout())
@@ -24,8 +24,8 @@ interface IBaseLoginDispatches {onLogin: (loginState: LoginState)=>any, onLogOut
 interface ILoginProps extends IBaseLoginProps,IBaseLoginDispatches {}
 class loginContainer extends React.Component<ILoginProps,{}>{
 
-    constructor(props: any){
-        super(props, {isLoggedIn: false, displayName: '', uid: null}) 
+    constructor(props: ILoginProps){
+        super(props) 
         firebase.auth().onAuthStateChanged((e)=>this.handleLogin(e));
                  
     }
