@@ -38,9 +38,10 @@ class loginContainer extends React.Component<ILoginProps,{}>{
               this.props.onLogOut()
           }
     }
-    async logout(){
-        await firebase.auth().signOut()
-        this.props.onLogOut()
+    logout(){
+        firebase.auth().signOut()
+        .then(()=>this.props.onLogOut())
+        
     }
     login(){
         var provider = new firebase.auth.GoogleAuthProvider();

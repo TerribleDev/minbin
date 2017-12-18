@@ -1,6 +1,8 @@
+/// <reference path="../redux-styles.d.ts" />
 import * as React from "react";
 import { Row, Col, Card, CardText } from "reactstrap";
-
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import googlecode from "react-syntax-highlighter/styles/hljs/googlecode";
 let exampleText = `
 void Main()
 {
@@ -29,11 +31,7 @@ export class Tab1 extends React.Component<any, any>{
         <Row>
             <Col sm="12">
                 <Card style={{ paddingTop: "10px" }}>
-                    <pre className='line-numbers'>
-                        <code className="language-csharp">
-                            {exampleText}
-                        </code>
-                    </pre>
+                    <SyntaxHighlighter showLineNumbers={true} language='cs' style={googlecode} >{exampleText}</SyntaxHighlighter>
                 </Card>
               </Col>
         </Row>);
