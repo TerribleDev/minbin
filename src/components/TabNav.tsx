@@ -1,4 +1,5 @@
-import * as React from "react";
+import { Tab1 } from './Tab1';
+import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, NavbarBrand } from 'reactstrap';
 
 export class TabNav extends React.Component<any, any> {
@@ -27,7 +28,7 @@ export class TabNav extends React.Component<any, any> {
               className={this.state.activeTab === '1' ? 'active': ''}
               onClick={() => { this.toggle('1'); }}
             >
-              Tab1
+              View
             </NavLink>
           </NavItem>
           <NavItem>
@@ -35,33 +36,18 @@ export class TabNav extends React.Component<any, any> {
               className={this.state.activeTab === '2' ? 'active': ''}
               onClick={() => { this.toggle('2'); }}
             >
-              Moar Tabs
+              Edit
             </NavLink>
           </NavItem>
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-                <h4>Tab 1 Contents</h4>
-              </Col>
-            </Row>
+            <Tab1 />
           </TabPane>
           <TabPane tabId="2">
             <Row>
-              <Col sm="6">
-                <Card>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
+              <Col sm="12">
+                <h4> Comming Soon</h4>
               </Col>
             </Row>
           </TabPane>

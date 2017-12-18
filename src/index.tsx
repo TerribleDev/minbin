@@ -9,7 +9,6 @@ import { LoginContainer } from './containers/Login'
 import { createStore } from 'redux'
 import {MainReducer} from './reducers/MainReducer'
 import { Provider } from 'react-redux'
-
 BoostrapFirebase();
 let store = createStore(MainReducer)
 const App = () => (
@@ -18,8 +17,8 @@ const App = () => (
           <LoginContainer/>
         </NavBar>
         <TabNav />
-        <Hello compiler="yodawg" framework="React" />
        </div>
+       
   );
   
 ReactDOM.render(
