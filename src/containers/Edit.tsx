@@ -30,7 +30,7 @@ export class edit extends React.Component<EditProps, EditState>{
         if(!this.props.appState.login.isLoggedIn){
             return;
         }
-        var docId = '';
+        let docId = '';
         if(this.props && this.props.docId && this.props.docId.length > 0){
             docId = this.props.docId;
         }
@@ -48,9 +48,9 @@ export class edit extends React.Component<EditProps, EditState>{
         fbData.rebase.removeBinding(this.ref);
     }
     generateDocId(){
-        var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var result = '';
-        for (var i = 0; i < 8; i++){
+        let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 8; i++){
             result += str.charAt(Math.floor(Math.random()*str.length))
         }
         return result;
@@ -65,7 +65,7 @@ export class edit extends React.Component<EditProps, EditState>{
     }
 
     render(){
-        var textArea = null;
+        let textArea = null;
         if(this.props.appState.login.isLoggedIn){
             textArea = <textarea value={this.state.document.Body} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
         }

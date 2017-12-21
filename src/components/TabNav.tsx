@@ -22,8 +22,8 @@ export class TabNav extends React.Component<any, any> {
     }
   }
   render() {
-    var plzLogin = <h4> Please login, yo</h4>
-    var editor = <Edit docId={"awesome"} />
+    let plzLogin = <h4> Please login, yo</h4>
+    let editor = <Edit docId={"awesome"} />
     return (
       <div>
         <Nav tabs className="ml-auto">

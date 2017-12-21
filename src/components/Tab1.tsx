@@ -6,7 +6,7 @@ import googlecode from "react-syntax-highlighter/styles/hljs/googlecode";
 let exampleText = `
 void Main()
 {
-	var next5Friday13 = DateTime.Today
+	let next5Friday13 = DateTime.Today
 	.Recurse(a=>a.AddDays(1))
 	.Where(a=>a.Day == 13 && a.DayOfWeek == DayOfWeek.Friday).Take(5);
 	
@@ -15,7 +15,7 @@ public static class Extension
 {
 	public static IEnumerable<T> Recurse<T>(this T obj, Func<T,T> action)
 	{
-		var local = obj;
+		let local = obj;
 		while(true)
 		{
 		  local = action(local);

@@ -44,7 +44,7 @@ class loginContainer extends React.Component<ILoginProps,{}>{
         
     }
     login(){
-        var provider = new firebase.auth.GoogleAuthProvider();
+        let provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(result => {});
     }
     render(){
