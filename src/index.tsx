@@ -9,15 +9,11 @@ import { LoginContainer } from './containers/Login'
 import { createStore } from 'redux'
 import {MainReducer} from './reducers/MainReducer'
 import { Provider } from 'react-redux'
+import { AppContainer } from "./containers/AppContainer";
 
 let store = createStore(MainReducer)
 const App = () => (
-      <div className="app container-fluid">
-        <NavBar>
-          <LoginContainer/>
-        </NavBar>
-        <TabNav />
-       </div>
+  <AppContainer/>
        
   );
   

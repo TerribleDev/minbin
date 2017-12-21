@@ -3,44 +3,44 @@ import * as actions from '../actions/loginActions';
 import { LoginState } from '../models/LoginState';
 import * as React from 'react';
 import * as firebase from 'firebase';
-import { LoginButton } from "../components/LoginButton"
+import { LoginButton } from "../components/LoginButton";
 import * as reactRedux from 'react-redux';
-import {AppState} from '../models/AppState'
+import {AppState} from '../models/AppState';
 import { Dispatch, connect } from 'react-redux';
 import * as redux from 'redux';
 
 const mapStateToProps = (state : AppState) : IBaseLoginProps  =>
     {
         return {loginState: state.login};
-    }
+    };
 const mapDispatchToProps  = (dispatch: (action: Action)=>any) : IBaseLoginDispatches => {
     return {
         onLogin:(loginState: LoginState) => dispatch(actions.login(loginState)),
         onLogOut:() => dispatch(actions.logout())
     }
-}
-interface IBaseLoginProps {loginState: LoginState}
-interface IBaseLoginDispatches {onLogin: (loginState: LoginState)=>any, onLogOut: ()=>any}
+};
+interface IBaseLoginProps {loginState: LoginState;}
+interface IBaseLoginDispatches {onLogin: (loginState: LoginState)=>any; onLogOut: ()=>any;}
 interface ILoginProps extends IBaseLoginProps,IBaseLoginDispatches {}
 class loginContainer extends React.Component<ILoginProps,{}>{
 
     constructor(props: ILoginProps){
-        super(props) 
+        super(props); 
         firebase.auth().onAuthStateChanged((e)=>this.handleLogin(e));
                  
     }
 
     handleLogin(user: firebase.User){
         if (user) {
-            this.props.onLogin({isLoggedIn: true, displayName: user.displayName, uid: user.uid})
+            this.props.onLogin({isLoggedIn: true, displayName: user.displayName, uid: user.uid});
             
           } else {
-              this.props.onLogOut()
+              this.props.onLogOut();
           }
     }
     logout(){
         firebase.auth().signOut()
-        .then(()=>this.props.onLogOut())
+        .then(()=>this.props.onLogOut());
         
     }
     login(){
@@ -51,12 +51,12 @@ class loginContainer extends React.Component<ILoginProps,{}>{
         
             
         if(this.props && this.props.loginState && this.props.loginState.isLoggedIn){
-            return <span> Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>
+            return <span> Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>;
         }
         else{
-            return <LoginButton onClick={this.login} />
+            return <LoginButton onClick={this.login} />;
         }
       
     }
 }
-export const LoginContainer = connect(mapStateToProps, mapDispatchToProps)(loginContainer)
+export const LoginContainer = connect(mapStateToProps, mapDispatchToProps)(loginContainer);

@@ -1,3 +1,4 @@
+import { LoginState } from '../models/LoginState';
 import { AppState } from '../models/AppState';
 import * as React from 'react';
 import * as _ from 'underscore';
@@ -6,16 +7,10 @@ import {Document} from '../models/Document'
 import { Col } from 'reactstrap';
 import { connect } from 'react-redux';
 
-interface PassedInProps {docId: string}
-interface ReduxProps {appState: AppState}
-interface EditProps extends PassedInProps, ReduxProps{}
+interface EditProps {docId: string, login: LoginState}
 interface EditState {document: Document}
 
-const mapStateToProps = (state : AppState, ownProps : PassedInProps) : EditProps  =>
-{
-    return {appState: state, docId: ownProps.docId};
-}
-export class edit extends React.Component<EditProps, EditState>{
+export class Edit extends React.Component<EditProps, EditState>{
     constructor(props: EditProps){
         super(props)
         this.state = {
@@ -27,7 +22,7 @@ export class edit extends React.Component<EditProps, EditState>{
     }
     ref: any
     componentDidMount() {
-        if(!this.props.appState.login.isLoggedIn){
+        if(!this.props.login.isLoggedIn){
             return;
         }
         let docId = '';
@@ -37,7 +32,7 @@ export class edit extends React.Component<EditProps, EditState>{
         else{
             docId = this.generateDocId()
         }
-        this.ref = fbData.rebase.syncState(`docs/${this.props.appState.login.uid}/${docId}`, {
+        this.ref = fbData.rebase.syncState(`docs/${this.props.login.uid}/${docId}`, {
           context: this,
           state: 'document',
           asArray: false
@@ -66,8 +61,8 @@ export class edit extends React.Component<EditProps, EditState>{
 
     render(){
         let textArea = null;
-        if(this.props.appState.login.isLoggedIn){
-            textArea = <textarea value={this.state.document.Body} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
+        if(this.props.login.isLoggedIn){
+            textArea = <textarea className="form-control" style={{height: "70vh"}} value={this.state.document.Body} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
         }
         return(
         <Col sm="12">
@@ -77,5 +72,3 @@ export class edit extends React.Component<EditProps, EditState>{
     }
 
 }
-
-export const Edit = connect(mapStateToProps)(edit)
