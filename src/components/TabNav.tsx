@@ -1,3 +1,5 @@
+import { IsLoggedIn } from '../containers/IsLoggedIn';
+import { Edit } from '../containers/Edit';
 import { Tab1 } from './Tab1';
 import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, NavbarBrand } from 'reactstrap';
@@ -20,6 +22,8 @@ export class TabNav extends React.Component<any, any> {
     }
   }
   render() {
+    var plzLogin = <h4> Please login, yo</h4>
+    var editor = <Edit docId={"awesome"} />
     return (
       <div>
         <Nav tabs className="ml-auto">
@@ -42,12 +46,14 @@ export class TabNav extends React.Component<any, any> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Tab1 />
+            <Row >
+              <Tab1 />
+            </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <h4> Comming Soon</h4>
+                <IsLoggedIn isTrue={editor} isFalse={plzLogin} />
               </Col>
             </Row>
           </TabPane>

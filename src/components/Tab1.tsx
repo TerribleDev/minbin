@@ -28,12 +28,10 @@ public static class Extension
 export class Tab1 extends React.Component<any, any>{
     render(){
         return(
-        <Row>
             <Col sm="12">
                 <Card style={{ paddingTop: "10px" }}>
                     <SyntaxHighlighter showLineNumbers={true} language='cs' style={googlecode} >{exampleText}</SyntaxHighlighter>
                 </Card>
-              </Col>
-        </Row>);
+              </Col>);
     }
 }

@@ -6,9 +6,9 @@ import * as _ from 'underscore'
 export function MainReducer(state:AppState = {login: { isLoggedIn: false, displayName: '', uid: ''}}, action: AnyAction) {
     switch(action.type){
         case appActions.LOGGED_IN:
-            return _.extend({}, state, {login:{ isLoggedIn: true, displayName: action.payload.displayName, uid: action.payload.displayName}})
+            return _.extend({}, state, {login:{ isLoggedIn: true, displayName: action.payload.displayName, uid: action.payload.uid}})
         case appActions.LOGGED_OUT:
-            return _.extend({}, state, {login:{ isLoggedIn: false, displayName: ""}})
+            return _.extend({}, state, {login:{ isLoggedIn: false, displayName: "", uid: ''}})
         default:
             return state
     }

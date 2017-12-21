@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "webpack-dev-server --output-public-path=dist",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,7 @@
     "@types/underscore": "^1.8.6",
     "bootstrap": "^4.0.0-beta.2",
     "firebase": "^4.8.0",
+    "re-base": "^3.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
