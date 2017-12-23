@@ -31,6 +31,7 @@ class loginContainer extends React.Component<ILoginProps,{}>{
     }
 
     handleLogin(user: firebase.User){
+        console.log(user);
         if (user) {
             this.props.onLogin({isLoggedIn: true, displayName: user.displayName, uid: user.uid});
             

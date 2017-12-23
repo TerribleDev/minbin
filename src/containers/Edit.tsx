@@ -1,74 +1,67 @@
 import { LoginState } from '../models/LoginState';
-import { AppState } from '../models/AppState';
+import { Editor } from '../components/Editor';
+import { Viewer } from '../components/Viewer';
 import * as React from 'react';
-import * as _ from 'underscore';
-import fbData from '../startup/firebase'
-import {Document} from '../models/Document'
-import { Col } from 'reactstrap';
-import { connect } from 'react-redux';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, NavbarBrand } from 'reactstrap';
 
-interface EditProps {docId: string, login: LoginState}
-interface EditState {document: Document}
+export interface EditState {tabNumber: string, doc?: string}
+export interface EditProps {login: LoginState, docId?: string}
 
-export class Edit extends React.Component<EditProps, EditState>{
-    constructor(props: EditProps){
-        super(props)
-        this.state = {
-            document:{
-                Title: '',
-                Body: ''
-            }
-        };
-    }
-    ref: any
-    componentDidMount() {
-        if(!this.props.login.isLoggedIn){
-            return;
-        }
-        let docId = '';
-        if(this.props && this.props.docId && this.props.docId.length > 0){
-            docId = this.props.docId;
-        }
-        else{
-            docId = this.generateDocId()
-        }
-        this.ref = fbData.rebase.syncState(`docs/${this.props.login.uid}/${docId}`, {
-          context: this,
-          state: 'document',
-          asArray: false
-        });
-      }
-    
-    componentWillUnmount() {
-        fbData.rebase.removeBinding(this.ref);
-    }
-    generateDocId(){
-        let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        for (let i = 0; i < 8; i++){
-            result += str.charAt(Math.floor(Math.random()*str.length))
-        }
-        return result;
-    }
-    updateDocument(docBody: string){
-        this.setState({
-            document: {
-                Title: '',
-                Body: docBody
-            }
-        })
-    }
+export class Edit extends React.Component<EditProps, EditState> {
+  constructor(props: EditProps) {
+    super(props);
 
-    render(){
-        let textArea = null;
-        if(this.props.login.isLoggedIn){
-            textArea = <textarea className="form-control" style={{height: "70vh"}} value={this.state.document.Body} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
-        }
-        return(
-        <Col sm="12">
-            {textArea}
-        </Col>
-        );
-    }
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      tabNumber: "1"
+    };
+  }
 
+  toggle(tab: string) {
+    if (this.state.tabNumber !== tab) {
+        super.setState({
+        tabNumber: tab
+      });
+    }
+  }
+  render() {
+    var editlawl = this.props.login.isLoggedIn ?  <Editor docId={this.props.docId} login={this.props.login} onChange={(doc:string)=>{this.setState({doc: doc}) }} /> : <h4> Please login, yo</h4>
+    var viewer = this.state.tabNumber === '1'? <Viewer doc={this.state.doc} /> : null;
+    return (
+      <div>
+        <Nav tabs className="ml-auto">
+          <NavItem>
+            <NavLink
+              className={this.state.tabNumber === '1' ? 'active': ''}
+              onClick={() => { this.toggle('1'); }}
+            >
+              View
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={this.state.tabNumber === '2' ? 'active': ''}
+              onClick={() => { this.toggle('2'); }}
+            >
+              Edit
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.tabNumber}>
+          <TabPane tabId="1">
+            <Row style={{height: '100%'}}>
+                {viewer}
+            </Row>
+          </TabPane>
+          <TabPane tabId="2">
+            <Row style={{height: '100%'}}>
+              <Col sm="12">
+                {editlawl}
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
+      </div>
+    );
+  }
 }

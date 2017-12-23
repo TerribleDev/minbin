@@ -24,13 +24,13 @@ public static class Extension
 	}
 }
 `
-
-export class Tab1 extends React.Component<any, any>{
+export interface ViewerProps {doc?: string, language?: string} 
+export class Viewer extends React.Component<ViewerProps, any>{
     render(){
         return(
             <Col sm="12">
                 <Card style={{ paddingTop: "10px" }}>
-                    <SyntaxHighlighter showLineNumbers={true} language='cs' style={googlecode} >{exampleText}</SyntaxHighlighter>
+                    <SyntaxHighlighter showLineNumbers={true} language={this.props.language || 'cs'} style={googlecode} >{this.props.doc || ''}</SyntaxHighlighter>
                 </Card>
               </Col>);
     }

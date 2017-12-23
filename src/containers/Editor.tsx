@@ -6,7 +6,7 @@ import fbData from '../startup/firebase'
 import {Document} from '../models/Document'
 import { Col } from 'reactstrap';
 
-interface EditProps {docId: string, login: LoginState, onChange?: (doc:string)=>void}
+interface EditProps {docId: string, login: LoginState}
 interface EditState {document: Document}
 
 export class Editor extends React.Component<EditProps, EditState>{
@@ -29,9 +29,8 @@ export class Editor extends React.Component<EditProps, EditState>{
             docId = this.props.docId;
         }
         else{
-            throw "no doc id!"
+            docId = this.generateDocId()
         }
-        //todo move this functionality to the edit container
         this.ref = fbData.rebase.syncState(`docs/${this.props.login.uid}/${docId}`, {
           context: this,
           state: 'document',
@@ -42,13 +41,21 @@ export class Editor extends React.Component<EditProps, EditState>{
     componentWillUnmount() {
         fbData.rebase.removeBinding(this.ref);
     }
+    generateDocId(){
+        let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < 8; i++){
+            result += str.charAt(Math.floor(Math.random()*str.length))
+        }
+        return result;
+    }
     updateDocument(docBody: string){
         this.setState({
             document: {
                 Title: '',
                 Body: docBody
             }
-        });
+        })
     }
 
     render(){
