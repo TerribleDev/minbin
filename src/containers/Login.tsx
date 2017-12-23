@@ -8,6 +8,8 @@ import * as reactRedux from 'react-redux';
 import {AppState} from '../models/AppState';
 import { Dispatch, connect } from 'react-redux';
 import * as redux from 'redux';
+import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (state : AppState) : IBaseLoginProps  =>
     {
@@ -31,7 +33,6 @@ class loginContainer extends React.Component<ILoginProps,{}>{
     }
 
     handleLogin(user: firebase.User){
-        console.log(user);
         if (user) {
             this.props.onLogin({isLoggedIn: true, displayName: user.displayName, uid: user.uid});
             
@@ -46,13 +47,14 @@ class loginContainer extends React.Component<ILoginProps,{}>{
     }
     login(){
         let provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(result => {});
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(()=>firebase.auth().signInWithPopup(provider).then(result => {}));
     }
     render(){
         
             
         if(this.props && this.props.loginState && this.props.loginState.isLoggedIn){
-            return <span> Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>;
+            return <span> <Link to="/d/new" className="btn btn-outline-success" >+ New</Link> Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>;
         }
         else{
             return <LoginButton onClick={this.login} />;

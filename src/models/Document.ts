@@ -1,4 +1,4 @@
 export interface Document {
-    Title: string,
-    Body: string
+    Title?: string,
+    Body?: string
 }

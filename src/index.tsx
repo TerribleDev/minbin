@@ -12,9 +12,7 @@ import { AppContainer } from "./containers/AppContainer";
 import { BrowserRouter } from "react-router-dom";
 let store = createStore(MainReducer)
 const App = () => (
-  <BrowserRouter>
            <AppContainer /> 
-  </BrowserRouter>
   
        
   );
