@@ -7,6 +7,8 @@ import fbData from '../startup/firebase'
 import {Document} from '../models/Document'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, NavbarBrand } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Conditional } from '../components/Conditional';
+import { ChangeEventHandler } from 'react';
 
 export interface EditState {document: Document}
 export interface EditProps {login: LoginState, docId: string, uid: string, showEdit? : Boolean}
@@ -47,11 +49,12 @@ export class Edit extends React.Component<EditProps, EditState> {
 
   render() {
     var tabNumber = this.props.showEdit ? '2': '1'
-    var editlawl = (this.props.login.isLoggedIn && this.props.login.uid === this.props.uid ) ?  <Editor documentBody={this.state.document.Body} onChange={(doc:string)=>this.updateDocument(doc)} /> : <h4> Please signin as the owener to edit</h4>
-    var viewer = tabNumber === '1'? <Viewer doc={this.state.document.Body} /> : null;
+    var displayEdit = this.props.login.isLoggedIn && this.props.login.uid === this.props.uid;
+    var displayViewer = tabNumber === '1';
+     // : null;
     return (
       <div>
-        <Nav tabs className="ml-auto">
+        <Nav tabs className="">
           <NavItem>
             <Link
               to="view"
@@ -71,24 +74,43 @@ export class Edit extends React.Component<EditProps, EditState> {
         </Nav>
         <TabContent activeTab={tabNumber}>
           <TabPane tabId="1">
-            <Row style={{height: '100%'}}>
+            <Row style={{height: '100vh'}}>
               <Col sm="12">
-                <br />
-                <h4>{this.state.document.Title}</h4><br />
-                {viewer}
+                <Conditional render={displayViewer}>
+                  <br />
+                  <h4>{this.state.document.Title}</h4><br />
+                  <Viewer doc={this.state.document.Body} />
+                </Conditional>
               </Col >
             </Row>
           </TabPane>
           <TabPane tabId="2">
-            <Row style={{height: '100%'}}>
-              <Col sm="12">
-                {editlawl}
-                <form className={'form-inline'}>
-                  <label htmlFor="title-input">Title: &nbsp;</label>
-                  <input type="text" onChange={(event)=>this.updateTitle(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" placeholder="Title" />
-                </form>
-              </Col>
-            </Row>
+            
+              
+                <Conditional render={displayEdit}>
+                    <Row style={{height: '80vh'}}>
+                      <Col sm="12" style={{height: '100%'}}>
+                      <textarea className="form-control" style={{height: "100%"}} value={this.state.document.Body || ""} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
+                      </Col>
+                    </Row>
+                    <Row style={{height: '20vh'}} >
+                      <Col sm="12">
+                        <form style={{paddingLeft: "10px"}} className={'form-inline'}>
+                            <label htmlFor="title-input">Title: &nbsp;</label>
+                            <input type="text" onChange={(event)=>this.updateTitle(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" placeholder="Title" />
+                        </form>
+                      </Col>
+                    </Row>
+                  
+                </Conditional>
+              
+                <Conditional render={!displayEdit}>
+                  <Row>
+                    <Col sm={{offset: 2, size: 10}} >
+                      <h4> Please signin as the owner to edit</h4>
+                    </Col>
+                  </Row>
+                </Conditional>
           </TabPane>
         </TabContent>
         
