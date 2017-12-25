@@ -1,3 +1,4 @@
+import { HomeContainer } from './HomeContainer';
 import { LoginState } from '../models/LoginState';
 import { Edit } from './Edit';
 import { LoginContainer } from './Login';
@@ -18,15 +19,13 @@ const mapStateToProps = (state : AppState) : AppState  =>
 class appContainer extends React.Component<AppState, any>{
     render(){
         return <BrowserRouter><div className="app container-fluid">
-        <NavBar>
-          <LoginContainer/>
-        </NavBar>
+        <NavBar loginState={this.props.login} />
         <Switch>
         <Route path="/d/new" render={()=>{
             return <Redirect to={`/d/${this.props.login.uid}/${generateDocId()}`} />
         }} />
         <Route path="/d/:uid/:docId/:edit" render={(routeProps: RouteComponentProps<{docId?: string, uid?: string, login: LoginState, edit: string}>)=>{
-            var showEdit;
+            let showEdit;
             if(routeProps.match.params.edit === "edit"){
                 showEdit = true;
             }
@@ -39,6 +38,9 @@ class appContainer extends React.Component<AppState, any>{
      
             return <Redirect to={`/d/${routeProps.match.params.uid}/${routeProps.match.params.docId}/view`} />
         }} />
+        <Route path="/" strict={true}>
+            <HomeContainer login={this.props.login} />
+        </Route>
         <Route component={ForOhFour} />
         </Switch>
        </div></BrowserRouter>

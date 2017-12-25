@@ -50,11 +50,11 @@ class loginContainer extends React.Component<ILoginProps,{}>{
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(()=>firebase.auth().signInWithPopup(provider).then(result => {}));
     }
+    //todo I should seperate the UI layer from the login business logic, redux posting
     render(){
         
-            
         if(this.props && this.props.loginState && this.props.loginState.isLoggedIn){
-            return <span> <Link to="/d/new" className="btn btn-outline-success" >+ New</Link> Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>;
+            return <span style={{verticalAlign: 'middle'}}>&nbsp; Hi, {this.props.loginState.displayName} <a href="#" onClick={()=>this.logout()}>Log Out</a> </span>;
         }
         else{
             return <LoginButton onClick={this.login} />;

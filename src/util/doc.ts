@@ -6,3 +6,14 @@ export function generateDocId(){
     }
     return result;
 }
+
+export function getLanguage(title?: string){
+    let language = null;
+    if(title){
+      let split = title.split('.');
+      if(split.length == 2){
+        language = split[1];
+      }
+    }
+    return language;
+}

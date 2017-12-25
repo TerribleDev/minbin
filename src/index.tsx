@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Hello } from "./components/Hello";
 import 'bootstrap/dist/css/bootstrap.css';
 import { NavBar } from './components/NavBar'
 import rebase from './startup/firebase'
