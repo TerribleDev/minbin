@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "webpack-dev-server --output-public-path=dist --history-api-fallback",
     "build": "npm run lint && webpack --optimize-minimize",
+    "compile": "npm run build",
     "lint": "tslint --project ./tslint.json src/**/*.ts src/**/*.tsx"
   },
   "author": "",
