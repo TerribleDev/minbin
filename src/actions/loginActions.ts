@@ -1,19 +1,17 @@
-import { LoginState } from '../models/LoginState';
-import {LOGGED_IN, LOGGED_OUT} from './types'
-import { MinAction } from '../models/MinAction';
+import { LoginState } from "../models/LoginState";
+import { MinAction } from "../models/MinAction";
+import {LOGGED_IN, LOGGED_OUT} from "./types";
 
-export function login(loginState: LoginState) : MinAction<LoginState>{
+export function login(loginState: LoginState): MinAction<LoginState> {
     return {
         type: LOGGED_IN,
-        payload: loginState
-    }
+        payload: loginState,
+    };
 }
 
-
-
-export function logout() : MinAction<LoginState> {
+export function logout(): MinAction<LoginState> {
     return {
         type: LOGGED_OUT,
-        payload: {isLoggedIn: false, displayName: '', uid: ''}
-    }
+        payload: {isLoggedIn: false, displayName: "", uid: ""},
+    };
 }

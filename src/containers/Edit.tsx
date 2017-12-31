@@ -1,56 +1,57 @@
-import { generateDocId, getLanguage } from '../util/doc';
-import { LoginState } from '../models/LoginState';
-import { Editor } from '../components/Editor';
-import { Viewer } from '../components/Viewer';
-import * as React from 'react';
-import fbData from '../startup/firebase'
-import {Document} from '../models/Document'
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, NavbarBrand, FormText, Input } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { Conditional } from '../components/Conditional';
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from "react";
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { Button, Card, CardText, CardTitle, Col, FormText, Input, Nav, NavbarBrand, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
+import { Conditional } from "../components/Conditional";
+import { Editor } from "../components/Editor";
+import { Viewer } from "../components/Viewer";
+import {Document} from "../models/Document";
+import { LoginState } from "../models/LoginState";
+import fbData from "../startup/firebase";
+import { generateDocId, getLanguage } from "../util/doc";
 
-export interface EditState {document: Document}
-export interface EditProps {login: LoginState, docId: string, uid: string, showEdit? : Boolean}
+export interface EditState {document: Document; }
+export interface EditProps {login: LoginState; docId: string; uid: string; showEdit?: boolean; }
 
 export class Edit extends React.Component<EditProps, EditState> {
+  public ref: any;
   constructor(props: EditProps) {
     super(props);
 
     this.state = {
       document: {
-        Title: '',
-        Body: ''
-      }
+        Title: "",
+        Body: "",
+      },
     };
   }
-  ref: any
-  componentDidMount() {
+
+  public componentDidMount() {
       this.ref = fbData.rebase.syncState(`docs/${this.props.uid}/${this.props.docId}`, {
         context: this,
-        state: 'document',
-        asArray: false
+        state: "document",
+        asArray: false,
       });
     }
-  
-  componentWillUnmount() {
+
+  public componentWillUnmount() {
       fbData.rebase.removeBinding(this.ref);
   }
-  updateTitle(docTitle: string){
-    this.setState({document:{Title: docTitle}});
+  public updateTitle(docTitle: string) {
+    this.setState({document: {Title: docTitle}});
   }
-  updateDocument(docBody: string){
+  public updateDocument(docBody: string) {
       this.setState({
           document: {
-              Body: docBody
-          }
+              Body: docBody,
+          },
       });
   }
 
-  render() {
-    let tabNumber = this.props.showEdit ? '2': '1'
-    let displayEdit = this.props.login.isLoggedIn && this.props.login.uid === this.props.uid;
-    let displayViewer = tabNumber === '1';
+  public render() {
+    const tabNumber = this.props.showEdit ? "2" : "1";
+    const displayEdit = this.props.login.isLoggedIn && this.props.login.uid === this.props.uid;
+    const displayViewer = tabNumber === "1";
 
      // : null;
     return (
@@ -59,7 +60,7 @@ export class Edit extends React.Component<EditProps, EditState> {
           <NavItem>
             <Link
               to="view"
-              className={`nav-link ${tabNumber === '1' ? 'active': ''}`}
+              className={`nav-link ${tabNumber === "1" ? "active" : ""}`}
             >
               View
             </Link>
@@ -67,7 +68,7 @@ export class Edit extends React.Component<EditProps, EditState> {
           <NavItem>
             <Link
               to="edit"
-              className={`nav-link ${tabNumber === '2' ? 'active': ''}`}
+              className={`nav-link ${tabNumber === "2" ? "active" : ""}`}
             >
               Edit
             </Link>
@@ -75,7 +76,7 @@ export class Edit extends React.Component<EditProps, EditState> {
         </Nav>
         <TabContent activeTab={tabNumber}>
           <TabPane tabId="1">
-            <Row style={{height: '100vh'}}>
+            <Row style={{height: "100vh"}}>
               <Col sm="12">
                 <Conditional render={displayViewer}>
                   <br />
@@ -87,23 +88,23 @@ export class Edit extends React.Component<EditProps, EditState> {
           </TabPane>
           <TabPane tabId="2">
                 <Conditional render={displayEdit}>
-                    <Row style={{height: '60vh'}}>
-                      <Col sm="12" style={{height: '100%'}}>
+                    <Row style={{height: "60vh"}}>
+                      <Col sm="12" style={{height: "100%"}}>
                       <div>Permalink: <Input readOnly type="text" value={`https://minbin.co/d/${this.props.login.uid}/${this.props.docId}`} /></div><br />
-                      <textarea className="form-control" style={{height: "40vh"}} value={this.state.document.Body || ""} onChange={(event)=>this.updateDocument(event.target.value)}></textarea>
+                      <textarea className="form-control" style={{height: "40vh"}} value={this.state.document.Body || ""} onChange={(event) => this.updateDocument(event.target.value)}></textarea>
                       </Col>
                     </Row>
-                    <Row style={{height: '20vh'}} >
+                    <Row style={{height: "20vh"}} >
                       <Col sm="12">
-                        <form style={{paddingLeft: "10px"}} className={'form-inline'}>
+                        <form style={{paddingLeft: "10px"}} className={"form-inline"}>
                             <label htmlFor="title-input">Title: &nbsp;</label>
-                            <input placeholder={"KittensAttack.cpp"} type="text" onChange={(event)=>this.updateTitle(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" />
+                            <input placeholder={"KittensAttack.cpp"} type="text" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" />
                         </form>
                       </Col>
                     </Row>
-                  
+
                 </Conditional>
-              
+
                 <Conditional render={!displayEdit}>
                   <Row>
                     <Col sm={{offset: 2, size: 10}} >
@@ -113,7 +114,7 @@ export class Edit extends React.Component<EditProps, EditState> {
                 </Conditional>
           </TabPane>
         </TabContent>
-        
+
       </div>
     );
   }

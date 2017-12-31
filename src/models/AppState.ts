@@ -1,4 +1,4 @@
-import { LoginState } from './LoginState';
+import { LoginState } from "./LoginState";
 export interface AppState {
-    login:LoginState
+    login: LoginState;
 }
