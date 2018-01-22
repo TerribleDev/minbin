@@ -5,12 +5,13 @@ import { Button, Card, CardText, CardTitle, Col, FormText, Input, Nav, NavbarBra
 import { Conditional } from "../components/Conditional";
 import { Editor } from "../components/Editor";
 import { Viewer } from "../components/Viewer";
-import {Document} from "../models/Document";
+import { Document } from "../models/Document";
 import { LoginState } from "../models/LoginState";
+import { getDocument, saveDocument } from "../repositories/firebaseRepository";
 import fbData from "../startup/firebase";
 import { generateDocId, getLanguage } from "../util/doc";
 
-export interface EditState {document: Document; }
+export interface EditState {document: Document; hasEdits?: boolean; }
 export interface EditProps {login: LoginState; docId: string; uid: string; showEdit?: boolean; }
 
 export class Edit extends React.Component<EditProps, EditState> {
@@ -27,25 +28,26 @@ export class Edit extends React.Component<EditProps, EditState> {
   }
 
   public componentDidMount() {
-      this.ref = fbData.rebase.syncState(`docs/${this.props.uid}/${this.props.docId}`, {
-        context: this,
-        state: "document",
-        asArray: false,
+      getDocument(this.props.docId, this.props.uid)
+      .then((document) => {
+          this.setState({document});
       });
     }
 
-  public componentWillUnmount() {
-      fbData.rebase.removeBinding(this.ref);
+  public updateDocument() {
+      saveDocument(this.state.document, this.props.docId, this.props.login.uid)
+        .then(() => {
+            console.log("state set!");
+            this.setState({hasEdits: false});
+        });
   }
-  public updateTitle(docTitle: string) {
-    this.setState({document: {Title: docTitle}});
+  public onTitleUpdate(title: string) {
+    const doc = Object.apply({}, [{Title: title}, this.state.document]);
+    this.setState({hasEdits: true, document: doc});
   }
-  public updateDocument(docBody: string) {
-      this.setState({
-          document: {
-              Body: docBody,
-          },
-      });
+  public onBodyUpdate(body: string) {
+    const doc = Object.apply({}, [{Body: body}, this.state.document]);
+    this.setState({hasEdits: true, document: doc});
   }
 
   public render() {
@@ -91,14 +93,15 @@ export class Edit extends React.Component<EditProps, EditState> {
                     <Row style={{height: "60vh"}}>
                       <Col sm="12" style={{height: "100%"}}>
                       <div>Permalink: <Input readOnly type="text" value={`https://minbin.co/d/${this.props.login.uid}/${this.props.docId}`} /></div><br />
-                      <textarea className="form-control" style={{height: "40vh"}} value={this.state.document.Body || ""} onChange={(event) => this.updateDocument(event.target.value)}></textarea>
+                      <textarea className="form-control" style={{height: "40vh"}} value={this.state.document.Body || ""} onChange={(event) => this.onBodyUpdate(event.target.value)}></textarea>
                       </Col>
                     </Row>
                     <Row style={{height: "20vh"}} >
                       <Col sm="12">
                         <form style={{paddingLeft: "10px"}} className={"form-inline"}>
                             <label htmlFor="title-input">Title: &nbsp;</label>
-                            <input placeholder={"KittensAttack.cpp"} type="text" onChange={(event) => this.updateTitle(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" />
+                            <input placeholder={"KittensAttack.cpp"} style={{marginRight: "15px"}} type="text" onChange={(event) => this.onTitleUpdate(event.target.value)} value={this.state.document.Title} className="form-control" id="title-input" />
+                            <Button name="Save" value="Save" color="primary" disabled={!this.state.hasEdits} >Save</Button>
                         </form>
                       </Col>
                     </Row>
